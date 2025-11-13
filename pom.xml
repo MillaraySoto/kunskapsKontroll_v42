@@ -24,24 +24,24 @@
             <artifactId>slf4j-api</artifactId>
             <version>${slf4j.version}</version>
         </dependency>
+
         <!-- Simple backend (prints to console) -->
         <dependency>
             <groupId>org.slf4j</groupId>
             <artifactId>slf4j-simple</artifactId>
             <version>${slf4j.version}</version>
-            <scope>runtime</scope>
         </dependency>
     </dependencies>
 
     <build>
         <plugins>
-            <!-- Allow running a main class via mvn exec:java -->
+            <!-- Allows running the main class via mvn exec:java -->
             <plugin>
                 <groupId>org.codehaus.mojo</groupId>
                 <artifactId>exec-maven-plugin</artifactId>
-                <version>3.5.0</version>
+                <version>3.1.0</version>
                 <configuration>
-                    <mainClass>com.example.exceptionsguide.LoggingDemo</mainClass>
+                    <mainClass>com.example.Main</mainClass>
                 </configuration>
             </plugin>
         </plugins>

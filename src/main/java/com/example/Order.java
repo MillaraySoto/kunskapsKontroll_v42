@@ -1,9 +1,14 @@
 package com.example;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import java.util.List;
 // Denna klass representerar ETT! enda köp av en kund.
 
 public class Order {
+    private static final Logger logger = LoggerFactory.getLogger(Order.class); // tar in logger i Order
+
 
     // för att kunna hitta ID och identifiera ordern
     private int orderID;
@@ -15,9 +20,13 @@ public class Order {
 
     // konstruktorn Initierar alla nödvändiga fält vid skapandet av en order.
     public Order(int orderID, List<Product> products, String customerName) {
+        if (products.isEmpty()) {
+            throw new EmptyProductListException("En order måste innehålla minst en produkt"); // för att kolla så att man inte skriver in en order utan produkter
+        }
         this.orderID = orderID;
         this.products = products;
         this.customerName = customerName;
+        logger.info("Ny order skapad: " + this); // loggar att en ny order har skapats om det inte blev fel där uppe i if
     }
 
     public double getTotalOrderPrice() {

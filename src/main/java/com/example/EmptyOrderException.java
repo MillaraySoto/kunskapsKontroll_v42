@@ -7,11 +7,5 @@ public class EmptyOrderException extends RuntimeException{
     public EmptyOrderException(String message) {
         // skickar felmeddelandet till Javas inbyggda felsystem- classen  " RuntimeExeption"
         super(message);
-
-
-
-
-
-
     }
 }
