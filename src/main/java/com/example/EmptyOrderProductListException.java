@@ -8,9 +8,9 @@ package com.example;
  * och gör koden mer robust.
  */
 
-public class EmptyProductListException extends RuntimeException {
+public class EmptyOrderProductListException extends RuntimeException {
 
-    public EmptyProductListException(String message) {
+    public EmptyOrderProductListException(String message) {
         super(message); // Skickar felmeddelandet till RuntimeException så att det kan visas vid fel
 
     }

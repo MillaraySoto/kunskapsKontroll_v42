@@ -21,7 +21,7 @@ public class Order {
     // konstruktorn Initierar alla nödvändiga fält vid skapandet av en order.
     public Order(int orderID, List<Product> products, String customerName) {
         if (products.isEmpty()) {
-            throw new EmptyProductListException("En order måste innehålla minst en produkt"); // för att kolla så att man inte skriver in en order utan produkter
+            throw new EmptyOrderProductListException("En order måste innehålla minst en produkt"); // för att kolla så att man inte skriver in en order utan produkter
         }
         this.orderID = orderID;
         this.products = products;

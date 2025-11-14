@@ -1,5 +1,6 @@
 package com.example;
 
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -37,6 +38,8 @@ public class Repository {
     // Det är här vi SKAPAR alla produkter och ordrar.
 
     public Repository() {
+
+        logger.info("REPOSITORY: Startar initiering av produkter och ordrar.");
         // Självaste produkterna (Skapar produkterna här )
 
         // try catch för att fånga fel om något går fel
@@ -44,19 +47,23 @@ public class Repository {
             //HÅRVÅRD
             Product p1 = new Product("Leave in balsam KEUNE ", "Hårvård", 149);
             products.add(p1);
+            // loggar när en produkt läggs ttill
             logger.info("Product tillagd i Repository: " + p1);
 
             Product p2 = new Product("Shampoo maria nila", "Hårvård", 239.90);
             products.add(p2);
+            // loggar när en produkt läggs ttill
             logger.info("Product tillagd i Repository: " + p2);
 
             //HUDVÅRD
             Product p3 = new Product("Gel cleanser HARUHARU ", "Hudvård", 199.39);
             products.add(p3);
+            // loggar när en produkt läggs ttill
             logger.info("Product tillagd i Repository: " + p3);
 
             Product p4 = new Product("Toner Centella Skin 1004", "Hudvård", 259.39);
             products.add(p4);
+            // loggar när en produkt läggs ttill
             logger.info("Product tillagd i Repository: " + p4);
 
             //KROPSVÅRD
@@ -68,6 +75,12 @@ public class Repository {
             Product p6 = new Product("Body oil Lavendel", "Kropsvård", 139.39);
             products.add(p6);
             logger.info("Product tillagd i Repository: " + p6);
+
+            // första testet i fall producterna har ett -pris (negativt pris )
+            // Programmet stoppas här och hoppar till 'catch (NegativePriceException e)'
+            Product pFailPris = new Product("TestProdukt Med Fel", "Test", -10);
+            products.add(pFailPris); // Denna rad körs ej
+
 
 
             // Skapar olika ordrar och lägger till ordrarna i orderlistan
@@ -84,6 +97,11 @@ public class Repository {
             orders.add(three3);
             logger.info("Order tillagd : " + three3);
 
+            // andra test om order listan är tom
+            //  koden hoppar till 'catch (EmptyOrderProductListException e)'
+            Order oFailEmpty = new Order(99, List.of(), "Cassandra");
+            orders.add(oFailEmpty); // Denna rad körs ej
+
 
             // lägger till varje order i customerOrderHistory
             this.addOrderToHistory(one1);
@@ -97,17 +115,54 @@ public class Repository {
 
             // detta fångar felet om en order har en tom produktlista
 
-        } catch(EmptyProductListException e){
+        } catch(EmptyOrderProductListException e){
                 logger.error("Misslyckades att skapa order: " + e.getMessage());
             }
     }
 
-            // Den här metoden är som en automatisk sorteringsmaskin som ser till att varje order hamnar i rätt kunds historik-lista inuti den stora mappen.
+         // den här metoden kollar om det finns en product
+
+        public void addProduct(Product product){
+           try{
+        if (product == null) {
+            throw new ProductNotFoundException("Produkten hittades inte.");
+        }
+         products.add(product);
+               logger.info("Produkt tillagd i Repository: " + product);
+
+           } catch (Exception e) {
+               logger.error("Misslyckades att lägga till produkt: " + e.getMessage());
+               throw e;
+           }
+        }
+
+    public void addOrder(Order order) {
+        try {
+            if (order == null) {
+                throw new EmptyOrderException("Order-objekt är null.");
+            }
+
+            orders.add(order);
+            logger.info("Order tillagd i Repository: " + order);
+
+            addOrderToHistory(order);
+
+        } catch (Exception e) {
+            logger.error("Misslyckades att lägga till order: " + e.getMessage());
+            throw e;
+        }
+    }
+
+
+
+
+    // Den här metoden är som en automatisk sorteringsmaskin som ser till att varje order hamnar i rätt kunds historik-lista inuti den stora mappen.
             public void addOrderToHistory (Order order){ // tar in ordern som har nyss gjorts
                 String customerName = order.getCustomerName(); // Plockar ut kundens namn direkt från ordern
                 // Söker upp kunden i Mappen, skapar lista om den saknas, och lägger till ordern.
                 customerOrderHistory.computeIfAbsent(customerName, k -> new ArrayList<>()).add(order);
             }
+
 
             // Getters för att hämta product info
             public List<Product> getProducts () {

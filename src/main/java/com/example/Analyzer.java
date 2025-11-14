@@ -113,7 +113,4 @@ public class Analyzer {
                 //  Ger tillbaka den nya Listan (List<String>)
                 .collect(Collectors.toList());
     }
-
     }
-
-
